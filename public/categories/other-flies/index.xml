@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Other flies on An Inordinate Fondness for Data</title>
+    <link>/categories/other-flies/</link>
+    <description>Recent content in Other flies on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/other-flies/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Other flies</title>
+      <link>/nature-gallery/other-flies/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/nature-gallery/other-flies/</guid>
+      <description>Non-syrphid flies Ctenophora pectiniformis (Tipulidae), near Abermawr, Wales. &amp;copy; 2017 Dylan Hodgkiss
+Dexiosoma caninum (Tachinidae), Sheffield Park NT, England. &amp;copy; 2017 Dylan Hodgkiss
+Haematopota crassicornis (Tabanidae), British Wildlife Centre, England. &amp;copy; 2016 Dylan Hodgkiss
+Nowickia ferox (Tachinidae) on ragwort, Chilterns AONB, England. &amp;copy; 2017 Dylan Hodgkiss
+Stomoxys calcitrans (Muscidae), Sheffield Park NT, England. &amp;copy; 2017 Dylan Hodgkiss</description>
+    </item>
+    
+  </channel>
+</rss>

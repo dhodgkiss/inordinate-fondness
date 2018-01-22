@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hoverflies on An Inordinate Fondness for Data</title>
+    <link>/categories/hoverflies/</link>
+    <description>Recent content in Hoverflies on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/hoverflies/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hoverflies</title>
+      <link>/nature-gallery/hoverflies/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/nature-gallery/hoverflies/</guid>
+      <description>Hoverflies Eupeodes corollae feeding on a mullein flower, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Meliscaeva auricollis feeding on mullein, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Scaeva pyrastri feeding on mullein, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Sphaerophoria sp., Chilterns AONB, England. &amp;copy; 2017 Dylan Hodgkiss
+Toxomerus occidentalis on a thistle flower, Golden Gate NRA, USA. &amp;copy; 2017 Dylan Hodgkiss
+Volucella inanis on ragwort, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss</description>
+    </item>
+    
+  </channel>
+</rss>

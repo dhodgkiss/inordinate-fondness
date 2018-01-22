@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tidyverse on An Inordinate Fondness for Data</title>
+    <link>/tags/tidyverse/</link>
+    <description>Recent content in Tidyverse on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Sat, 30 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/tidyverse/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</title>
+      <link>/blog/2017-12-30_filter_and_subset/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2017-12-30_filter_and_subset/</guid>
+      <description>Introduction In order to analyse data, a necessary first step is to ensure that you have only those records from a dataset that are relevant to the analysis that you wish to perform. Often certain records need to be removed so that you are only comparing the records that meet a particular set of criteria. Of course, you could go through and delete the records that don&amp;rsquo;t meet the necessary criteria and save a new spreadsheet file with only the relevant records.</description>
+    </item>
+    
+  </channel>
+</rss>

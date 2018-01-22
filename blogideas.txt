@@ -1,0 +1,5 @@
+Blog ideas:
+
+-Capture.output() function for saving results of R analyses
+
+-Reformatting tables from wide to long and vice versa

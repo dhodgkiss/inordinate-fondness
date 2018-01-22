@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on An Inordinate Fondness for Data</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bees</title>
+      <link>/categories/bees/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/bees/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hoverflies</title>
+      <link>/categories/hoverflies/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/hoverflies/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Other flies</title>
+      <link>/categories/other-flies/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/other-flies/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Wasps</title>
+      <link>/categories/wasps/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/wasps/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reshape on An Inordinate Fondness for Data</title>
+    <link>/tags/reshape/</link>
+    <description>Recent content in Reshape on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/reshape/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Reshaping data frames between long and wide formats</title>
+      <link>/blog/2018-01-01_reshaping_data_frames/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2018-01-01_reshaping_data_frames/</guid>
+      <description>Introduction When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or &amp;lsquo;reshaping&amp;rsquo; the data frame, is a necessary prerequisite for carrying out the analyses.</description>
+    </item>
+    
+  </channel>
+</rss>

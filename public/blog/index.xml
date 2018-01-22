@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on An Inordinate Fondness for Data</title>
+    <link>/blog/</link>
+    <description>Recent content in Blog on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Reshaping data frames between long and wide formats</title>
+      <link>/blog/2018-01-01_reshaping_data_frames/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2018-01-01_reshaping_data_frames/</guid>
+      <description>Introduction When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or &amp;lsquo;reshaping&amp;rsquo; the data frame, is a necessary prerequisite for carrying out the analyses.</description>
+    </item>
+    
+    <item>
+      <title>Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</title>
+      <link>/blog/2017-12-30_filter_and_subset/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2017-12-30_filter_and_subset/</guid>
+      <description>Introduction In order to analyse data, a necessary first step is to ensure that you have only those records from a dataset that are relevant to the analysis that you wish to perform. Often certain records need to be removed so that you are only comparing the records that meet a particular set of criteria. Of course, you could go through and delete the records that don&amp;rsquo;t meet the necessary criteria and save a new spreadsheet file with only the relevant records.</description>
+    </item>
+    
+  </channel>
+</rss>

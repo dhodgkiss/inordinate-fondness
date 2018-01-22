@@ -1,0 +1,1095 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.31.1" />
+        
+  
+    
+  
+
+  
+
+  <link rel="apple-touch-icon-precomposed" href='/favicon/apple-touch-icon-precomposed.png'>
+  <link rel="icon" href='/favicon/favicon.png'>
+  
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content='/favicon/mstile.png'>
+  <meta name="application-name" content="An Inordinate Fondness for Data">
+  <meta name="msapplication-tooltip" content="A repository of data analysis techniques and examples, with an added-on photo gallery of invertebrates">
+  <meta name="msapplication-config" content='/favicon/ieconfig.xml'>
+
+
+
+        
+            <meta name="author" content="the Anxious Analyst">
+        
+        
+            <meta name="description" content="How to select only certain records from a data frame">
+        
+
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R"/>
+<meta name="twitter:description" content="How to select only certain records from a data frame"/>
+<meta name="twitter:site" content="@AnxiousAnalyst"/>
+
+        <meta property="og:title" content="Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R" />
+<meta property="og:description" content="How to select only certain records from a data frame" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2017-12-30_filter_and_subset/" />
+
+
+
+<meta property="article:published_time" content="2017-12-30T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-12-30T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R">
+<meta itemprop="description" content="How to select only certain records from a data frame">
+
+
+<meta itemprop="datePublished" content="2017-12-30T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2017-12-30T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1158">
+
+
+
+<meta itemprop="keywords" content="data tidying,tidyverse," />
+
+        
+
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800,900|Source+Sans+Pro:400,700">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css">
+            <link rel="stylesheet" href="/css/main.css">
+            <link rel="stylesheet" href="/css/add-on.css">
+        
+
+        
+            
+                
+            
+        
+
+      
+    </head>
+    <body>
+
+      
+      <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+      <h1><a href="/">blog</a></h1>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/">
+                            <i class="fa fa-home">&nbsp;</i>Home
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about/">
+                            <i class="fa fa-id-card-o">&nbsp;</i>About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/blog/">
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/nature-gallery/">
+                            <i class="fa fa-list">&nbsp;</i>Nature Gallery
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories/">
+                            <i class="fa fa-sitemap">&nbsp;</i>Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact/">
+                            <i class="fa fa-envelope-o">&nbsp;</i>Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="as_sitesearch" value="/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="as_sitesearch" value="/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/">
+                            <h3>
+                                <i class="fa fa-home">&nbsp;</i>Home
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about/">
+                            <h3>
+                                <i class="fa fa-id-card-o">&nbsp;</i>About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/">
+                            <h3>
+                                <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/nature-gallery/">
+                            <h3>
+                                <i class="fa fa-list">&nbsp;</i>Nature Gallery
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories/">
+                            <h3>
+                                <i class="fa fa-sitemap">&nbsp;</i>Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact/">
+                            <h3>
+                                <i class="fa fa-envelope-o">&nbsp;</i>Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <div class="mini-posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+
+                
+                    
+                
+
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/blog/2018-01-01_reshaping_data_frames/">Reshaping data frames between long and wide formats</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2018-01-01'>
+                                    January 1, 2018</time>
+                            </header>
+                            
+
+                        </article>
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/blog/2017-12-30_filter_and_subset/">Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2017-12-30'>
+                                    December 30, 2017</time>
+                            </header>
+                            
+    
+
+    
+        
+        
+
+
+
+
+
+
+    
+
+
+        
+        
+        
+
+        <a href="/blog/2017-12-30_filter_and_subset/" class="image featured">
+            <img src="/img/blogposts//dam_laGomera_003.jpg" alt="">
+        </a>
+    
+
+
+                        </article>
+                
+
+                
+            </div>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li>
+  <a href="//twitter.com/share?url=%2fblog%2f2017-12-30_filter_and_subset%2f&text=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R&via=AnxiousAnalyst" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//plus.google.com/share?url=%2fblog%2f2017-12-30_filter_and_subset%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2017-12-30_filter_and_subset%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//reddit.com/submit?url=%2fblog%2f2017-12-30_filter_and_subset%2f&title=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2017-12-30_filter_and_subset%2f&title=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn linkedin">
+      <i class="fa fa-linkedin"></i>
+      <p>LinkedIn</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//www.stumbleupon.com/submit?url=%2fblog%2f2017-12-30_filter_and_subset%2f&title=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.pinterest.com/pin/create/button/?url=%2fblog%2f2017-12-30_filter_and_subset%2f&description=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn pinterest">
+    <i class="fa fa-pinterest-p"></i>
+    <p>Pinterest</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="mailto:?subject=Check out this post by the%20Anxious%20Analyst&body=%2fblog%2f2017-12-30_filter_and_subset%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+  </a>
+</li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+  <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2017-12-30_filter_and_subset/">Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</a></h1>
+            
+        
+        
+            <p>How to select only certain records from a data frame</p>
+        
+    </div>
+    <div class="meta">
+        
+
+        <time class="published"
+            datetime='2017-12-30'>
+            December 30, 2017</time>
+        <span class="author">the Anxious Analyst</span>
+        
+            <p>6 minute read</p>
+        
+        
+    </div>
+</header>
+
+
+  
+    <section id="social-share">
+      <ul class="icons">
+        
+
+
+<li>
+  <a href="//twitter.com/share?url=%2fblog%2f2017-12-30_filter_and_subset%2f&text=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R&via=AnxiousAnalyst" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//plus.google.com/share?url=%2fblog%2f2017-12-30_filter_and_subset%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2017-12-30_filter_and_subset%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//reddit.com/submit?url=%2fblog%2f2017-12-30_filter_and_subset%2f&title=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2017-12-30_filter_and_subset%2f&title=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn linkedin">
+      <i class="fa fa-linkedin"></i>
+      <p>LinkedIn</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//www.stumbleupon.com/submit?url=%2fblog%2f2017-12-30_filter_and_subset%2f&title=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.pinterest.com/pin/create/button/?url=%2fblog%2f2017-12-30_filter_and_subset%2f&description=Three%20ways%20to%20%27filter%27%20out%20a%20%27subset%27%20of%20records%20from%20a%20data%20frame%20in%20R" target="_blank" class="share-btn pinterest">
+    <i class="fa fa-pinterest-p"></i>
+    <p>Pinterest</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="mailto:?subject=Check out this post by the%20Anxious%20Analyst&body=%2fblog%2f2017-12-30_filter_and_subset%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+  </a>
+</li>
+
+      </ul>
+    </section>
+  
+
+  
+    
+
+    
+        
+        
+
+
+
+
+
+
+    
+
+
+        
+        
+        
+
+        <a href="/blog/2017-12-30_filter_and_subset/" class="image featured">
+            <img src="/img/blogposts//dam_laGomera_003.jpg" alt="">
+        </a>
+    
+
+
+  <div id="content">
+    
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In order to analyse data, a necessary first step is to ensure that you have only those records from a dataset that are relevant to the analysis that you wish to perform. Often certain records need to be removed so that you are only comparing the records that meet a particular set of criteria. Of course, you could go through and delete the records that don&rsquo;t meet the necessary criteria and save a new spreadsheet file with only the relevant records. However, typically it is quicker and more efficient to keep the entire data table intact and simply cherry-pick the required records from the table.</p>
+
+<p>R offers many methods for extracting only certain records from a data frame. However, the extract operator <code>[</code> and the functions <code>dplyr::filter()</code> and <code>base::subset()</code> comprise three simple and intuitive methods for subsetting a data frame. This article will run through the process of retrieving a subset of all records using these three methods.</p>
+
+<p>I&rsquo;ll start with the extract operator <code>[</code> from the &lsquo;base&rsquo; package.</p>
+
+<h2 id="square-brackets">Square brackets []</h2>
+
+<h3 id="syntax">Syntax</h3>
+
+<p>Square brackets can be used to select only certain rows and/or columns from a data frame. The general form of a call using the extract operator looks like this:</p>
+
+<pre><code class="language-r">dataset[rows,columns]
+</code></pre>
+
+<p>Thus, the name of the original data frame is followed by square brackets which enclose details of the rows and columns to be kept, separated by a comma. Rows are always listed first. In order to apply criteria to the selection of rows from the full data frame, you can use the <code>which()</code> function, also from the &lsquo;base&rsquo; package:</p>
+
+<pre><code class="language-r">dataset[which(dataset$year == 2012),]
+</code></pre>
+
+<p>This call would return only those records for which the value of the &lsquo;year&rsquo; column was equal to 2012. The fact that no arguments are listed for the columns means that all columns from the original data frame would be returned for all records from 2012. In order to return only columns 1 and 4-7, you would amend the call thusly:</p>
+
+<pre><code class="language-r">dataset[which(dataset$year == 2012), c(1, 4:7)]
+</code></pre>
+
+<p>If you wanted to list the columns to include by name rather than index, the call becomes somewhat complicated:</p>
+
+<pre><code class="language-r">dataset[which(dataset$year == 2012), names(dataset) %in% c('county','year','population')]
+</code></pre>
+
+<p>This call would return all records from 2012 and only values from the columns &lsquo;county&rsquo;, &lsquo;year&rsquo; and &lsquo;population&rsquo; for each record.</p>
+
+<p>Finally, to add multiple criteria to the selection of records you use the logical AND <code>&amp;</code> or OR <code>|</code> operators:</p>
+
+<pre><code class="language-r">dataset[which(dataset$year == 2012 &amp; dataset$county == 'Kent'), c(1, 4:7)]
+</code></pre>
+
+<p>Here, all records from Kent in 2012 would be returned, with only the values stored in columns 1 and 4-7 for each record.</p>
+
+<h2 id="dplyr-filter">dplyr::filter()</h2>
+
+<p>The <code>filter()</code> function from the &lsquo;dplyr&rsquo; package takes a data frame and selects from it only those rows that meet the criteria listed in the call to the function. The function returns all columns present in the original data frame.</p>
+
+<h3 id="syntax-1">Syntax</h3>
+
+<p>The general syntax looks like this:</p>
+
+<pre><code class="language-r">input_data %&gt;%
+  filter(criterion1, criterion2, ...)
+</code></pre>
+
+<p>Therefore, to select only records from Kent in 2012 from an imaginary dataset, you would type the following:</p>
+
+<pre><code class="language-r">dataset %&gt;%
+  filter(year == 2012, county == 'Kent')
+</code></pre>
+
+<p>The code above selects only those records from the data frame called &lsquo;dataset&rsquo; which meet the criteria of having a value of 2012 in the &lsquo;year&rsquo; column and &lsquo;Kent&rsquo; in the &lsquo;county&rsquo; column. Note that variable names do not need quotes nor the name of the data frame where they are found (like <code>dataset$year</code>, as was necessary with the extract operator).</p>
+
+<p>The criteria for the filtering process can be any relational operation (<code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code>, or <code>!=</code>) or combination of relational operations. For example, if you wanted to select only the records from Kent that fell in the year range of 2005 to 2007, then you could simply add a second criteria for the year value to ensure that only records meeting both &lsquo;year&rsquo; criteria are retained:</p>
+
+<pre><code class="language-r">dataset %&gt;%
+  filter(year &gt; 2004, year &lt; 2008, county == 'Kent')
+</code></pre>
+
+<p>This call requires that the value in the &lsquo;year&rsquo; column be both greater than 2004 AND less than 2008. Therefore, only records from Kent with year values of 2005, 2006 and 2007 would be retained.</p>
+
+<h2 id="base-subset">base::subset()</h2>
+
+<p>The <code>subset()</code> function from the &lsquo;base&rsquo; package in R performs essentially the same kind of operations as the <code>filter()</code> function. There are a few subtle differences however.</p>
+
+<h3 id="syntax-2">Syntax</h3>
+
+<p>As with the <code>filter()</code> function, <code>subset()</code> takes a data frame (or matrix or vector) and returns only those rows that meet the criteria specified in the function call:</p>
+
+<pre><code class="language-r">dataset %&gt;%
+  subset(year == 2012 &amp; county == 'Kent')
+</code></pre>
+
+<p>As you can see, <code>subset()</code> works almost exactly the same as <code>filter()</code>, and indeed, the result of this call is identical to the first code example given at the start of the article. However, notice that there is one important difference in the syntax for <code>subject()</code>: rather than separating successive conditions with a comma as before, now a logical operator (AND <code>&amp;</code> or OR <code>|</code>) is used instead to include multiple conditions in a single call.</p>
+
+<p>Another difference with <code>subset()</code> is that it takes an optional argument <code>select =</code>, which allows you to return only certain columns from the original data frame. For example, if you&rsquo;d only like columns 1, and 4-7 in the filtered data frame, then you would type the following:</p>
+
+<pre><code>dataset %&gt;%
+  subset(year == 2012 &amp; county == 'Kent', select = c(1, 4:7))
+</code></pre>
+
+<p>The <code>select =</code> argument can also be used to exclude columns. Moreover, column names can be used instead of column index numbers if you wish. Therefore, if you wanted to exclude the &lsquo;county&rsquo; column from appearing in the resulting filtered table, then you could enter the following command:</p>
+
+<pre><code class="language-r">dataset %&gt;%
+  subset(year == 2012 &amp; county == 'Kent', select = -county)
+</code></pre>
+
+<p>The same thing can be done for data that has been filtered using the <code>filter()</code> function; however, you have to pass the result of the filter call to another function: <code>dplyr::select()</code>. Here is an example of how to do the same thing as the call above using <code>filter()</code> and <code>select()</code>:</p>
+
+<pre><code class="language-r">dataset %&gt;%
+  filer(year == 2012, county == 'Kent') %&gt;%
+  select(-county)
+</code></pre>
+
+<h3 id="storing-a-filtered-dataset-as-a-new-data-frame">Storing a filtered dataset as a new data frame</h3>
+
+<p>It&rsquo;s important to remember that the extract operator and <code>filter()</code> and <code>subset()</code> functions do not make any changes to the original data frame. Therefore, if you want to use the filtered version of a data frame in analyses, then you should store the result of a call to one of the functions in a new variable:</p>
+
+<pre><code class="language-r">filtered_data1 &lt;- dataset[which(dataset$year &gt; 2004 &amp; dataset$year &lt; 2008 &amp; dataset$county == 'Kent'), c(1,4:7)]
+
+filtered_data2 &lt;- dataset %&gt;%
+  filter(year &gt; 2004, year &lt; 2008, county == 'Kent') %&gt;%
+  select(c(1,4:7))
+
+filtered_data3 &lt;- dataset %&gt;%
+  subset(year &gt; 2004 % year &lt; 2008 &amp; county == 'Kent', select = c(1,4:7))
+</code></pre>
+
+<p>These calls should all produce the same filtered dataset. Now records from Kent between the years of 2005 and 2007 will be stored in a new data frame called &lsquo;filtered_data&rsquo;(1,2 or 3). Meanwhile, the data frame called &lsquo;dataset&rsquo; remains unaltered.</p>
+
+  </div>
+
+  <footer>
+    <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+                        <i class="fa fa-sitemap">&nbsp;</i>
+                    
+
+                    
+                        Category
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categories/r'>R</a></li>
+    
+</ul>
+
+  </footer>
+
+</article>
+
+    <article class="post">
+        <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </article>
+
+
+<ul class="actions pagination">
+    
+
+    
+        <li><a href="/blog/2018-01-01_reshaping_data_frames/"
+                class="button big next">Reshaping data frames between long and wide formats</a></li>
+    
+</ul>
+
+
+    </div>
+    
+<section id="sidebar">
+
+  
+  <section id="intro">
+    
+    
+      
+        <a href='/' class="logo"><img src="/img/main/Nowickia_ferox_crop.jpg" alt="Nowickia ferox on Senecio sp." /></a>
+      
+    
+    
+      <header>
+        <h2>An Inordinate Fondness for Data</h2>
+        <p>Adventures in data science with the Anxious Analyst as your guide.</p>
+      </header>
+    
+    
+      <ul class="icons">
+        
+          <li>
+            <a href="" type="application/rss+xml" target="_blank" title="RSS" class="fa fa-rss"></a>
+          </li>
+        
+        
+  <li><a href="//github.com/jpescador/hugo-future-imperfect" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//linkedin.com/in/https://www.linkedin.com/in/dylan-hodgkiss" target="_blank" title="LinkedIn" class="fa fa-linkedin"></a></li>
+
+
+
+
+
+
+
+
+
+  <li><a href="//facebook.com/dylan.hodgkiss1" target="_blank" title="Facebook" class="fa fa-facebook"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//twitter.com/AnxiousAnalyst" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="mailto:djhodgkiss@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+      </ul>
+    
+  </section>
+
+  
+  <section id="recent-posts">
+    <div class="mini-posts">
+      <header>
+        <h3>Recent Posts</h3>
+      </header>
+      <div class="posts-container">
+        
+
+        
+          
+        
+
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/blog/2018-01-01_reshaping_data_frames/">Reshaping data frames between long and wide formats</a>
+              </h3>
+              
+              <time class="published" datetime='2018-01-01'>
+                January 1, 2018
+              </time>
+            </header>
+            
+
+          </article>
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/blog/2017-12-30_filter_and_subset/">Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</a>
+              </h3>
+              
+              <time class="published" datetime='2017-12-30'>
+                December 30, 2017
+              </time>
+            </header>
+            
+    
+
+    
+        
+        
+
+
+
+
+
+
+    
+
+
+        
+        
+        
+
+        <a href="/blog/2017-12-30_filter_and_subset/" class="image featured">
+            <img src="/img/blogposts//dam_laGomera_003.jpg" alt="">
+        </a>
+    
+
+
+          </article>
+        
+      </div>
+
+      
+    </div>
+  </section>
+
+  
+  
+  
+  
+    <section id="categories">
+      <header>
+        <h3>
+          <a href="/categories/">Categories</a>
+        </h3>
+      </header>
+        
+          
+        
+
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/r/">R</a>
+                <span style="float:right;">2</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/bees/">Bees</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/hoverflies/">Hoverflies</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/other-flies/">Other flies</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/wasps/">Wasps</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+    </section>
+  
+
+  
+  
+
+  
+  <section id="footer">
+    
+      <ul class="icons">
+        
+          <li>
+            <a href="" type="application/rss+xml" target="_blank" title="RSS" class="fa fa-rss"></a>
+          </li>
+        
+        
+  <li><a href="//github.com/jpescador/hugo-future-imperfect" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//linkedin.com/in/https://www.linkedin.com/in/dylan-hodgkiss" target="_blank" title="LinkedIn" class="fa fa-linkedin"></a></li>
+
+
+
+
+
+
+
+
+
+  <li><a href="//facebook.com/dylan.hodgkiss1" target="_blank" title="Facebook" class="fa fa-facebook"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//twitter.com/AnxiousAnalyst" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="mailto:djhodgkiss@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+      </ul>
+    
+    <p class="copyright">
+      
+        &copy; 2018
+        
+          An Inordinate Fondness for Data
+        
+      .
+      Powered by <a href="//gohugo.io" target="_blank">Hugo</a>
+    </p>
+  </section>
+</section>
+
+    </div>
+    <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+    
+
+    
+      
+    
+
+    
+    
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
+      <script src="/js/util.js"></script>
+      <script src="/js/main.js"></script>
+      <script src="/js/backToTop.js"></script>
+    
+
+    
+      
+        
+      
+    
+
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

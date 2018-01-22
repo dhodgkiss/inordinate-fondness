@@ -1,0 +1,1302 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+            
+                <title>Reshaping data frames between long and wide formats</title>
+            
+        
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content="Hugo 0.31.1" />
+        
+  
+    
+  
+
+  
+
+  <link rel="apple-touch-icon-precomposed" href='/favicon/apple-touch-icon-precomposed.png'>
+  <link rel="icon" href='/favicon/favicon.png'>
+  
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content='/favicon/mstile.png'>
+  <meta name="application-name" content="An Inordinate Fondness for Data">
+  <meta name="msapplication-tooltip" content="A repository of data analysis techniques and examples, with an added-on photo gallery of invertebrates">
+  <meta name="msapplication-config" content='/favicon/ieconfig.xml'>
+
+
+
+        
+            <meta name="author" content="the Anxious Analyst">
+        
+        
+            
+                <meta name="description" content="A repository of data analysis techniques and examples, with an added-on photo gallery of invertebrates">
+            
+        
+
+        <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Reshaping data frames between long and wide formats"/>
+<meta name="twitter:description" content="Introduction When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or &lsquo;reshaping&rsquo; the data frame, is a necessary prerequisite for carrying out the analyses."/>
+<meta name="twitter:site" content="@AnxiousAnalyst"/>
+
+        <meta property="og:title" content="Reshaping data frames between long and wide formats" />
+<meta property="og:description" content="Introduction When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or &lsquo;reshaping&rsquo; the data frame, is a necessary prerequisite for carrying out the analyses." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/2018-01-01_reshaping_data_frames/" />
+
+
+
+<meta property="article:published_time" content="2018-01-01T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2018-01-01T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+        
+<meta itemprop="name" content="Reshaping data frames between long and wide formats">
+<meta itemprop="description" content="Introduction When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or &lsquo;reshaping&rsquo; the data frame, is a necessary prerequisite for carrying out the analyses.">
+
+
+<meta itemprop="datePublished" content="2018-01-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-01-01T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="988">
+
+
+
+<meta itemprop="keywords" content="reshape,wide/long formats," />
+
+        
+
+        
+            
+        
+
+        
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800,900|Source+Sans+Pro:400,700">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css">
+            <link rel="stylesheet" href="/css/main.css">
+            <link rel="stylesheet" href="/css/add-on.css">
+        
+
+        
+            
+                
+            
+        
+
+      
+    </head>
+    <body>
+
+      
+      <div id="wrapper">
+
+    
+    
+<header id="header">
+    
+      <h1><a href="/">blog</a></h1>
+    
+
+    <nav class="links">
+        <ul>
+            
+                <li>
+                    <a href="/">
+                            <i class="fa fa-home">&nbsp;</i>Home
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/about/">
+                            <i class="fa fa-id-card-o">&nbsp;</i>About
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/blog/">
+                            <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/nature-gallery/">
+                            <i class="fa fa-list">&nbsp;</i>Nature Gallery
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/categories/">
+                            <i class="fa fa-sitemap">&nbsp;</i>Categories
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="/contact/">
+                            <i class="fa fa-envelope-o">&nbsp;</i>Contact
+                    </a>
+                </li>
+            
+        </ul>
+    </nav>
+    <nav class="main">
+        <ul>
+            
+            <li id="share-nav" class="share-menu" style="display:none;">
+                <a class="fa-share-alt" href="#share-menu">Share</a>
+            </li>
+            
+            <li class="search">
+                <a class="fa-search" href="#search">Search</a>
+                <form id="search" method="get" action="//google.com/search">
+                    <input type="text" name="q" placeholder="Search" />
+                    <input type="hidden" name="as_sitesearch" value="/">
+                </form>
+            </li>
+            <li class="menu">
+                <a class="fa-bars" href="#menu">Menu</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<section id="menu">
+
+    
+        <section>
+            <form class="search" method="get" action="//google.com/search">
+                <input type="text" name="q" placeholder="Search" />
+                <input type="hidden" name="as_sitesearch" value="/">
+            </form>
+        </section>
+
+    
+        <section>
+            <ul class="links">
+                
+                    <li>
+                        <a href="/">
+                            <h3>
+                                <i class="fa fa-home">&nbsp;</i>Home
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/about/">
+                            <h3>
+                                <i class="fa fa-id-card-o">&nbsp;</i>About
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/blog/">
+                            <h3>
+                                <i class="fa fa-newspaper-o">&nbsp;</i>Blog
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/nature-gallery/">
+                            <h3>
+                                <i class="fa fa-list">&nbsp;</i>Nature Gallery
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories/">
+                            <h3>
+                                <i class="fa fa-sitemap">&nbsp;</i>Categories
+                            </h3>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/contact/">
+                            <h3>
+                                <i class="fa fa-envelope-o">&nbsp;</i>Contact
+                            </h3>
+                        </a>
+                    </li>
+                
+            </ul>
+        </section>
+
+    
+        <section id="recent-posts">
+            <div class="mini-posts">
+                <header>
+                    <h3>Recent Posts</h3>
+                </header>
+                
+
+                
+                    
+                
+
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/blog/2018-01-01_reshaping_data_frames/">Reshaping data frames between long and wide formats</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2018-01-01'>
+                                    January 1, 2018</time>
+                            </header>
+                            
+
+                        </article>
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/blog/2017-12-30_filter_and_subset/">Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2017-12-30'>
+                                    December 30, 2017</time>
+                            </header>
+                            
+    
+
+    
+        
+        
+
+
+
+
+
+
+    
+
+
+        
+        
+        
+
+        <a href="/blog/2017-12-30_filter_and_subset/" class="image featured">
+            <img src="/img/blogposts//dam_laGomera_003.jpg" alt="">
+        </a>
+    
+
+
+                        </article>
+                
+
+                
+            </div>
+        </section>
+
+    
+        
+</section>
+
+    <section id="share-menu">
+    <section id="social-share-nav">
+        <ul class="links">
+            <header>
+                <h3>Share this post <i class="fa fa-smile-o"></i></h3>
+            </header>
+            
+
+
+<li>
+  <a href="//twitter.com/share?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&text=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats&via=AnxiousAnalyst" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//plus.google.com/share?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-01-01_reshaping_data_frames%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//reddit.com/submit?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&title=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&title=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn linkedin">
+      <i class="fa fa-linkedin"></i>
+      <p>LinkedIn</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&title=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.pinterest.com/pin/create/button/?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&description=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn pinterest">
+    <i class="fa fa-pinterest-p"></i>
+    <p>Pinterest</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="mailto:?subject=Check out this post by the%20Anxious%20Analyst&body=%2fblog%2f2018-01-01_reshaping_data_frames%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+  </a>
+</li>
+
+        </ul>
+    </section>
+</section>
+
+    
+    <div id="main">
+        
+        
+        <article class="post">
+  <header>
+    <div class="title">
+        
+            <h1><a href="/blog/2018-01-01_reshaping_data_frames/">Reshaping data frames between long and wide formats</a></h1>
+            
+        
+        
+    </div>
+    <div class="meta">
+        
+
+        <time class="published"
+            datetime='2018-01-01'>
+            January 1, 2018</time>
+        <span class="author">the Anxious Analyst</span>
+        
+            <p>5 minute read</p>
+        
+        
+    </div>
+</header>
+
+
+  
+    <section id="social-share">
+      <ul class="icons">
+        
+
+
+<li>
+  <a href="//twitter.com/share?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&text=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats&via=AnxiousAnalyst" target="_blank" class="share-btn twitter">
+    <i class="fa fa-twitter"></i>
+    <p>Twitter</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//plus.google.com/share?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f" target="_blank" class="share-btn google-plus">
+    <i class="fa fa-google-plus"></i>
+    <p>Google+</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.facebook.com/sharer/sharer.php?u=%2fblog%2f2018-01-01_reshaping_data_frames%2f" target="_blank" class="share-btn facebook">
+    <i class="fa fa-facebook"></i>
+    <p>Facebook</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//reddit.com/submit?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&title=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn reddit">
+    <i class="fa fa-reddit-alien"></i>
+    <p>Reddit</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.linkedin.com/shareArticle?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&title=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn linkedin">
+      <i class="fa fa-linkedin"></i>
+      <p>LinkedIn</p>
+    </a>
+</li>
+
+
+<li>
+  <a href="//www.stumbleupon.com/submit?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&title=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn stumbleupon">
+    <i class="fa fa-stumbleupon"></i>
+    <p>StumbleUpon</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="//www.pinterest.com/pin/create/button/?url=%2fblog%2f2018-01-01_reshaping_data_frames%2f&description=Reshaping%20data%20frames%20between%20long%20and%20wide%20formats" target="_blank" class="share-btn pinterest">
+    <i class="fa fa-pinterest-p"></i>
+    <p>Pinterest</p>
+  </a>
+</li>
+
+
+<li>
+  <a href="mailto:?subject=Check out this post by the%20Anxious%20Analyst&body=%2fblog%2f2018-01-01_reshaping_data_frames%2f" target="_blank" class="share-btn email">
+    <i class="fa fa-envelope"></i>
+    <p>Email</p>
+  </a>
+</li>
+
+      </ul>
+    </section>
+  
+
+  
+
+  <div id="content">
+    
+
+<h2 id="introduction">Introduction</h2>
+
+<p>When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or &lsquo;reshaping&rsquo; the data frame, is a necessary prerequisite for carrying out the analyses. This article will give a brief overview of how to reshape data frames using the <code>gather()</code> and <code>spread()</code> functions from the &lsquo;tidyr&rsquo; package.</p>
+
+<h2 id="converting-tables-from-wide-to-long-format">Converting tables from wide to long format</h2>
+
+<p>Tables are said to be in wide format when some columns are not variables. Put another way, if you have multiple columns with values of a response variable, then your data is in wide format. An example from my research in ecology is counts of pollinators belonging to different functional groups (groups of pollinators that behave similarly when visiting flowers for pollen and nectar). A table of pollinator counts in wide format might look something like this:</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Survey</th>
+<th align="center">Date</th>
+<th align="center">Site</th>
+<th align="center">Bumblebees</th>
+<th align="center">Honeybees</th>
+<th align="center">Hoverflies</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">10/06/2017</td>
+<td align="center">CO1</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">3</td>
+</tr>
+
+<tr>
+<td align="center">2</td>
+<td align="center">18/06/2017</td>
+<td align="center">CO2</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+
+<tr>
+<td align="center">3</td>
+<td align="center">25/06/2017</td>
+<td align="center">CO3</td>
+<td align="center">10</td>
+<td align="center">5</td>
+<td align="center">1</td>
+</tr>
+
+<tr>
+<td align="center">4</td>
+<td align="center">05/07/2017</td>
+<td align="center">OP1</td>
+<td align="center">8</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+
+<tr>
+<td align="center">5</td>
+<td align="center">12/07/2017</td>
+<td align="center">OP2</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">5</td>
+</tr>
+
+<tr>
+<td align="center">6</td>
+<td align="center">21/07/2017</td>
+<td align="center">OP3</td>
+<td align="center">2</td>
+<td align="center">7</td>
+<td align="center">9</td>
+</tr>
+</tbody>
+</table>
+
+<p>However, if you wanted to create a stacked bar chart with the relative proportions of each pollinator group across the six sites, then you would need to have this data in long format to simplify the next steps of the code for creating the bar chart. This is where the <code>gather()</code> function comes in.</p>
+
+<h3 id="syntax">Syntax</h3>
+
+<p>Here is the generic syntax for the <code>gather()</code> function:</p>
+
+<pre><code class="language-r">reformatted_data &lt;- input_data %&gt;%
+  gather(KeyColumnName, ValueColumnName, CurrentColumnsWithValues, factor_key = TRUE)
+</code></pre>
+
+<p>In the code above, <code>KeyColumnName</code> is the name that you want to give to the new column that will store the keys, which are the current column names that you want to collapse into a single column. <code>ValueColumnName</code> is the name of the column that will store the value associated with the each key. <code>CurrentColumnsWithValues</code> tells R which columns to extract the values from in order to reassign them to the new single column of values. Lastly, setting <code>factor_key</code> to <code>TRUE</code> means that the new key column will be stored as a factor rather than a character vector.</p>
+
+<p>Thus, to rearrange data from the pollinator counts example into long format, you can use the following code and save it as a new data frame called &lsquo;poldat.long&rsquo;:</p>
+
+<pre><code class="language-r">poldat.long &lt;- poldat %&gt;%
+  gather(FunctGroup, Count, Bumblebees:Hoverflies, factor_key = TRUE)
+</code></pre>
+
+<p>When displayed as a table, the result of this call looks like this:</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Survey</th>
+<th align="center">Date</th>
+<th align="center">Site</th>
+<th align="center">FunctGroup</th>
+<th align="center">Count</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">10/06/2017</td>
+<td align="center">CO1</td>
+<td align="center">Bumblebees</td>
+<td align="center">5</td>
+</tr>
+
+<tr>
+<td align="center">2</td>
+<td align="center">18/06/2017</td>
+<td align="center">CO2</td>
+<td align="center">Bumblebees</td>
+<td align="center">4</td>
+</tr>
+
+<tr>
+<td align="center">3</td>
+<td align="center">25/06/2017</td>
+<td align="center">CO3</td>
+<td align="center">Bumblebees</td>
+<td align="center">10</td>
+</tr>
+
+<tr>
+<td align="center">4</td>
+<td align="center">05/07/2017</td>
+<td align="center">OP1</td>
+<td align="center">Bumblebees</td>
+<td align="center">8</td>
+</tr>
+
+<tr>
+<td align="center">5</td>
+<td align="center">12/07/2017</td>
+<td align="center">OP2</td>
+<td align="center">Bumblebees</td>
+<td align="center">3</td>
+</tr>
+
+<tr>
+<td align="center">6</td>
+<td align="center">21/07/2017</td>
+<td align="center">OP3</td>
+<td align="center">Bumblebees</td>
+<td align="center">2</td>
+</tr>
+
+<tr>
+<td align="center">1</td>
+<td align="center">10/06/2017</td>
+<td align="center">CO1</td>
+<td align="center">Honeybees</td>
+<td align="center">2</td>
+</tr>
+
+<tr>
+<td align="center">2</td>
+<td align="center">18/06/2017</td>
+<td align="center">CO2</td>
+<td align="center">Honeybees</td>
+<td align="center">1</td>
+</tr>
+
+<tr>
+<td align="center">3</td>
+<td align="center">25/06/2017</td>
+<td align="center">CO3</td>
+<td align="center">Honeybees</td>
+<td align="center">5</td>
+</tr>
+
+<tr>
+<td align="center">4</td>
+<td align="center">05/07/2017</td>
+<td align="center">OP1</td>
+<td align="center">Honeybees</td>
+<td align="center">3</td>
+</tr>
+
+<tr>
+<td align="center">5</td>
+<td align="center">12/07/2017</td>
+<td align="center">OP2</td>
+<td align="center">Honeybees</td>
+<td align="center">2</td>
+</tr>
+
+<tr>
+<td align="center">6</td>
+<td align="center">21/07/2017</td>
+<td align="center">OP3</td>
+<td align="center">Honeybees</td>
+<td align="center">7</td>
+</tr>
+
+<tr>
+<td align="center">1</td>
+<td align="center">10/06/2017</td>
+<td align="center">CO1</td>
+<td align="center">Hoverflies</td>
+<td align="center">3</td>
+</tr>
+
+<tr>
+<td align="center">2</td>
+<td align="center">18/06/2017</td>
+<td align="center">CO2</td>
+<td align="center">Hoverflies</td>
+<td align="center">0</td>
+</tr>
+
+<tr>
+<td align="center">3</td>
+<td align="center">25/06/2017</td>
+<td align="center">CO3</td>
+<td align="center">Hoverflies</td>
+<td align="center">10</td>
+</tr>
+
+<tr>
+<td align="center">4</td>
+<td align="center">05/07/2017</td>
+<td align="center">OP1</td>
+<td align="center">Hoverflies</td>
+<td align="center">2</td>
+</tr>
+
+<tr>
+<td align="center">5</td>
+<td align="center">12/07/2017</td>
+<td align="center">OP2</td>
+<td align="center">Hoverflies</td>
+<td align="center">5</td>
+</tr>
+
+<tr>
+<td align="center">6</td>
+<td align="center">21/07/2017</td>
+<td align="center">OP3</td>
+<td align="center">Hoverflies</td>
+<td align="center">9</td>
+</tr>
+</tbody>
+</table>
+
+<p>Now pollinator counts are grouped into a single column that can serve as a response variable in univariate analyses, with the FunctGroup variable as a fixed effect, for example. Notice that all other columns are automatically repeated as necessary, so there are now three copies of survey, date and site values for each of the six original observations.</p>
+
+<h2 id="converting-tables-from-long-to-wide-format">Converting tables from long to wide format</h2>
+
+<p>If instead the data you have is in long format and you need it in wide format, then the function to use is <code>tidyr::spread()</code>.</p>
+
+<h3 id="syntax-1">Syntax</h3>
+
+<p>The arguments of for <code>spread()</code> are similar to those for <code>gather()</code>, only you no longer need to enter columns with the values to collapse because this time, there is only a single value column that you are separating into multiple columns:</p>
+
+<pre><code class="language-r">reformatted_data &lt;- input_data %&gt;%
+  spread(KeyColumnName, ValueColumnName, fill = 0, convert = TRUE, drop = FALSE, sep = &quot;.&quot;)
+</code></pre>
+
+<p>In the code above, I&rsquo;ve added three optional arguments (<code>fill</code>, <code>convert</code>, <code>drop</code> and <code>sep</code>). <code>fill</code> and <code>drop</code> apply to situations where you do not have all combinations of factor levels for each observation. So in our pollinator count example, if some sites did not have data for all three pollinator groups, then setting <code>fill = 0</code> would mean that missing factor levels would be filled in with a count of <code>0</code>. Setting <code>drop = TRUE</code>, on the other hand, would omit these missing factor-observation combinations altogether. The default setting for <code>drop</code> is <code>drop = FALSE</code>, so in most circumstances it&rsquo;s unnecessary to include it.</p>
+
+<p><code>convert</code> defaults to <code>FALSE</code>; however, it can be useful to set it to <code>TRUE</code> as it will then convert the type of the new columns to an integer, in this case, rather than having them as type number or character (for strings), which happens by default. Lastly, setting <code>sep = &quot;.&quot;</code> means that the new column names will take the form of KeyName.KeyValue. Hence, in our pollinator count example, the new columns would be named FunctGroup.Bumblebees, FunctGroup.Honeybees and FunctGroup.Hoverflies. The default setting is <code>sep = NULL</code>, which means the names of the new columns are simply the key values themselves (Bumblebees, Honeybees and Hoverflies), which is often appropriate. Therefore, in this case, rearranging the &lsquo;poldat.long&rsquo; to wide format could be done using the following code:</p>
+
+<pre><code class="language-r">poldat.wide &lt;- poldat.long %&gt;%
+  spread(FunctGroup, Count)
+</code></pre>
+
+<p>Once this code is run, we&rsquo;re left with the same table we had originally:</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Survey</th>
+<th align="center">Date</th>
+<th align="center">Site</th>
+<th align="center">Bumblebees</th>
+<th align="center">Honeybees</th>
+<th align="center">Hoverflies</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">10/06/2017</td>
+<td align="center">CO1</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">3</td>
+</tr>
+
+<tr>
+<td align="center">2</td>
+<td align="center">18/06/2017</td>
+<td align="center">CO2</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+
+<tr>
+<td align="center">3</td>
+<td align="center">25/06/2017</td>
+<td align="center">CO3</td>
+<td align="center">10</td>
+<td align="center">5</td>
+<td align="center">1</td>
+</tr>
+
+<tr>
+<td align="center">4</td>
+<td align="center">05/07/2017</td>
+<td align="center">OP1</td>
+<td align="center">8</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+
+<tr>
+<td align="center">5</td>
+<td align="center">12/07/2017</td>
+<td align="center">OP2</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">5</td>
+</tr>
+
+<tr>
+<td align="center">6</td>
+<td align="center">21/07/2017</td>
+<td align="center">OP3</td>
+<td align="center">2</td>
+<td align="center">7</td>
+<td align="center">9</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+
+  <footer>
+    <ul class="stats">
+    
+        
+
+        
+        
+            <li>
+                
+                
+                    
+
+                    
+
+                    
+                        <i class="fa fa-sitemap">&nbsp;</i>
+                    
+
+                    
+                        Category
+                    
+                
+            </li>
+        
+    
+
+    
+    
+        <li><a href='/categories/r'>R</a></li>
+    
+</ul>
+
+  </footer>
+
+</article>
+
+    <article class="post">
+        <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "shortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </article>
+
+
+<ul class="actions pagination">
+    
+        <li><a href="/blog/2017-12-30_filter_and_subset/"
+                class="button big previous">Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</a></li>
+    
+
+    
+</ul>
+
+
+    </div>
+    
+<section id="sidebar">
+
+  
+  <section id="intro">
+    
+    
+      
+        <a href='/' class="logo"><img src="/img/main/Nowickia_ferox_crop.jpg" alt="Nowickia ferox on Senecio sp." /></a>
+      
+    
+    
+      <header>
+        <h2>An Inordinate Fondness for Data</h2>
+        <p>Adventures in data science with the Anxious Analyst as your guide.</p>
+      </header>
+    
+    
+      <ul class="icons">
+        
+          <li>
+            <a href="" type="application/rss+xml" target="_blank" title="RSS" class="fa fa-rss"></a>
+          </li>
+        
+        
+  <li><a href="//github.com/jpescador/hugo-future-imperfect" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//linkedin.com/in/https://www.linkedin.com/in/dylan-hodgkiss" target="_blank" title="LinkedIn" class="fa fa-linkedin"></a></li>
+
+
+
+
+
+
+
+
+
+  <li><a href="//facebook.com/dylan.hodgkiss1" target="_blank" title="Facebook" class="fa fa-facebook"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//twitter.com/AnxiousAnalyst" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="mailto:djhodgkiss@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+      </ul>
+    
+  </section>
+
+  
+  <section id="recent-posts">
+    <div class="mini-posts">
+      <header>
+        <h3>Recent Posts</h3>
+      </header>
+      <div class="posts-container">
+        
+
+        
+          
+        
+
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/blog/2018-01-01_reshaping_data_frames/">Reshaping data frames between long and wide formats</a>
+              </h3>
+              
+              <time class="published" datetime='2018-01-01'>
+                January 1, 2018
+              </time>
+            </header>
+            
+
+          </article>
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/blog/2017-12-30_filter_and_subset/">Three ways to &#39;filter&#39; out a &#39;subset&#39; of records from a data frame in R</a>
+              </h3>
+              
+              <time class="published" datetime='2017-12-30'>
+                December 30, 2017
+              </time>
+            </header>
+            
+    
+
+    
+        
+        
+
+
+
+
+
+
+    
+
+
+        
+        
+        
+
+        <a href="/blog/2017-12-30_filter_and_subset/" class="image featured">
+            <img src="/img/blogposts//dam_laGomera_003.jpg" alt="">
+        </a>
+    
+
+
+          </article>
+        
+      </div>
+
+      
+    </div>
+  </section>
+
+  
+  
+  
+  
+    <section id="categories">
+      <header>
+        <h3>
+          <a href="/categories/">Categories</a>
+        </h3>
+      </header>
+        
+          
+        
+
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/r/">R</a>
+                <span style="float:right;">2</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/bees/">Bees</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/hoverflies/">Hoverflies</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/other-flies/">Other flies</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+        <p>
+          <article>
+            <header>
+              
+                <a href="/categories/wasps/">Wasps</a>
+                <span style="float:right;">1</span>
+              
+            </header>
+          </article>
+        </p>
+        
+    </section>
+  
+
+  
+  
+
+  
+  <section id="footer">
+    
+      <ul class="icons">
+        
+          <li>
+            <a href="" type="application/rss+xml" target="_blank" title="RSS" class="fa fa-rss"></a>
+          </li>
+        
+        
+  <li><a href="//github.com/jpescador/hugo-future-imperfect" target="_blank" title="GitHub" class="fa fa-github"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//linkedin.com/in/https://www.linkedin.com/in/dylan-hodgkiss" target="_blank" title="LinkedIn" class="fa fa-linkedin"></a></li>
+
+
+
+
+
+
+
+
+
+  <li><a href="//facebook.com/dylan.hodgkiss1" target="_blank" title="Facebook" class="fa fa-facebook"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="//twitter.com/AnxiousAnalyst" target="_blank" title="Twitter" class="fa fa-twitter"></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li><a href="mailto:djhodgkiss@gmail.com" title="Email" class="fa fa-envelope"></a></li>
+
+
+      </ul>
+    
+    <p class="copyright">
+      
+        &copy; 2018
+        
+          An Inordinate Fondness for Data
+        
+      .
+      Powered by <a href="//gohugo.io" target="_blank">Hugo</a>
+    </p>
+  </section>
+</section>
+
+    </div>
+    <a id="back-to-top" href="#" class="fa fa-arrow-up fa-border fa-2x"></a>
+    
+
+    
+      
+    
+
+    
+    
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
+      <script src="/js/util.js"></script>
+      <script src="/js/main.js"></script>
+      <script src="/js/backToTop.js"></script>
+    
+
+    
+      
+        
+      
+    
+
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

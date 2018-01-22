@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nature-gallery on An Inordinate Fondness for Data</title>
+    <link>/nature-gallery/</link>
+    <description>Recent content in Nature-gallery on An Inordinate Fondness for Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/nature-gallery/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bees</title>
+      <link>/nature-gallery/bees/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/nature-gallery/bees/</guid>
+      <description>Bees Agapostemon sp., San Francisco, USA. &amp;copy; 2017 Dylan Hodgkiss
+Anthidium manicatum, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Osmia leaiana, Welsh Wildlife Centre, Wales. &amp;copy; 2017 Dylan Hodgkiss</description>
+    </item>
+    
+    <item>
+      <title>Hoverflies</title>
+      <link>/nature-gallery/hoverflies/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/nature-gallery/hoverflies/</guid>
+      <description>Hoverflies Eupeodes corollae feeding on a mullein flower, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Meliscaeva auricollis feeding on mullein, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Scaeva pyrastri feeding on mullein, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss
+Sphaerophoria sp., Chilterns AONB, England. &amp;copy; 2017 Dylan Hodgkiss
+Toxomerus occidentalis on a thistle flower, Golden Gate NRA, USA. &amp;copy; 2017 Dylan Hodgkiss
+Volucella inanis on ragwort, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss</description>
+    </item>
+    
+    <item>
+      <title>Other flies</title>
+      <link>/nature-gallery/other-flies/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/nature-gallery/other-flies/</guid>
+      <description>Non-syrphid flies Ctenophora pectiniformis (Tipulidae), near Abermawr, Wales. &amp;copy; 2017 Dylan Hodgkiss
+Dexiosoma caninum (Tachinidae), Sheffield Park NT, England. &amp;copy; 2017 Dylan Hodgkiss
+Haematopota crassicornis (Tabanidae), British Wildlife Centre, England. &amp;copy; 2016 Dylan Hodgkiss
+Nowickia ferox (Tachinidae) on ragwort, Chilterns AONB, England. &amp;copy; 2017 Dylan Hodgkiss
+Stomoxys calcitrans (Muscidae), Sheffield Park NT, England. &amp;copy; 2017 Dylan Hodgkiss</description>
+    </item>
+    
+    <item>
+      <title>Wasps</title>
+      <link>/nature-gallery/wasps/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/nature-gallery/wasps/</guid>
+      <description>Wasps Cerceris rybyensis on oxeye daisy, East Grinstead, England. &amp;copy; 2017 Dylan Hodgkiss</description>
+    </item>
+    
+  </channel>
+</rss>
