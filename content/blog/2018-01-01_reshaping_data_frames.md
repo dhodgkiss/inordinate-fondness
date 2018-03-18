@@ -18,11 +18,11 @@ type: 'post'
 
 ## Introduction
 
-When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. However, recorded data is often in a format that suits data collection, but which is unsuitable for data analysis. At times like these, rearranging the data, or 'reshaping' the data frame, is a necessary prerequisite for carrying out the analyses. This article will give a brief overview of how to reshape data frames using the `gather()` and `spread()` functions from the 'tidyr' package.
+When preparing data frames for input into analyses, a common first step is to restructure the layout of the data so that you have all the necessary variables as columns and all the relevant values for each observation in rows. Relational databases rely on tables that follow this format. However, recorded data is often in a format that suits data collection, but which may be unsuitable for data analysis. At times like these, rearranging the data, or 'reshaping' the data frame, is a necessary prerequisite for carrying out the analyses. This article will give a brief overview of how to reshape data frames using the `gather()` and `spread()` functions from the 'tidyr' package.
 
 ## Converting tables from wide to long format
 
-Tables are said to be in wide format when some columns are not variables. Put another way, if you have multiple columns with values of a response variable, then your data is in wide format. An example from my research in ecology is counts of pollinators belonging to different functional groups (groups of pollinators that behave similarly when visiting flowers for pollen and nectar). A table of pollinator counts in wide format might look something like this:
+Tables are said to be in wide format when some columns are not variables. In other words, if you have multiple columns with values of a response variable, then your data is in wide format. An example from my research in ecology is counts of pollinators belonging to different functional groups (groups of closely-related pollinators that behave similarly when visiting flowers for pollen and nectar). A table of pollinator counts in wide format might look something like this:
 
 [//]: # (This is a comment: For some reason this table doesn't show up properly when I add vertical lines at the end of it.)
 
@@ -35,7 +35,7 @@ Tables are said to be in wide format when some columns are not variables. Put an
 |5     |12/07/2017 |OP2   |3           |2          |5           
 |6     |21/07/2017 |OP3   |2           |7          |9           
 
-However, if you wanted to create a stacked bar chart with the relative proportions of each pollinator group across the six sites, then you would need to have this data in long format to simplify the next steps of the code for creating the bar chart. This is where the `gather()` function comes in.
+However, if, for example, you wanted to create a stacked bar chart with the relative proportions of each pollinator group across the six sites, then you would need to have this data in long format to simplify the next steps of the code for creating the bar chart. As another example, if you wanted to perform a generalised linear model with functional group as a fixed effect, then you would need a single column with all counts. This is where the `gather()` function comes in.
 
 ### Syntax
 
@@ -45,7 +45,7 @@ Here is the generic syntax for the `gather()` function:
 reformatted_data <- input_data %>%
   gather(KeyColumnName, ValueColumnName, CurrentColumnsWithValues, factor_key = TRUE)
 ```
-In the code above, `KeyColumnName` is the name that you want to give to the new column that will store the keys, which are the current column names that you want to collapse into a single column. `ValueColumnName` is the name of the column that will store the value associated with the each key. `CurrentColumnsWithValues` tells R which columns to extract the values from in order to reassign them to the new single column of values. Lastly, setting `factor_key` to `TRUE` means that the new key column will be stored as a factor rather than a character vector.
+In the code above, `KeyColumnName` is the name that you want to give to the new column that will store the keys, which are the current column names that you want to collapse into a single column. `ValueColumnName` is the name of the new column that will store the value associated with the each key. `CurrentColumnsWithValues` tells R which columns to extract the values from in order to reassign them to the new single column of values. Lastly, setting `factor_key` to `TRUE` means that the new key column will be stored as a factor rather than a character vector.
 
 Thus, to rearrange data from the pollinator counts example into long format, you can use the following code and save it as a new data frame called 'poldat.long':
 ```r
@@ -83,12 +83,12 @@ If instead the data you have is in long format and you need it in wide format, t
 
 ### Syntax
 
-The arguments of for `spread()` are similar to those for `gather()`, only you no longer need to enter columns with the values to collapse because this time, there is only a single value column that you are separating into multiple columns:
+The arguments for `spread()` are similar to those for `gather()`, only you no longer need to enter columns with the values to collapse because this time, there is only a single value column that you are separating into multiple columns:
 ```r
 reformatted_data <- input_data %>%
   spread(KeyColumnName, ValueColumnName, fill = 0, convert = TRUE, drop = FALSE, sep = ".")
 ```
-In the code above, I've added three optional arguments (`fill`, `convert`, `drop` and `sep`). `fill` and `drop` apply to situations where you do not have all combinations of factor levels for each observation. So in our pollinator count example, if some sites did not have data for all three pollinator groups, then setting `fill = 0` would mean that missing factor levels would be filled in with a count of `0`. Setting `drop = TRUE`, on the other hand, would omit these missing factor-observation combinations altogether. The default setting for `drop` is `drop = FALSE`, so in most circumstances it's unnecessary to include it. 
+In the code above, I've added four optional arguments (`fill`, `convert`, `drop` and `sep`). `fill` and `drop` apply to situations where you do not have all combinations of factor levels for each observation. So in our pollinator count example, if some sites did not have data for all three pollinator groups, then setting `fill = 0` would mean that missing factor levels would be filled in with a count of `0`. Setting `drop = TRUE`, on the other hand, would omit these missing factor-observation combinations altogether. The default setting for `drop` is `drop = FALSE`, so in most circumstances it's unnecessary to include it. 
 
 `convert` defaults to `FALSE`; however, it can be useful to set it to `TRUE` as it will then convert the type of the new columns to an integer, in this case, rather than having them as type number or character (for strings), which happens by default. Lastly, setting `sep = "."` means that the new column names will take the form of KeyName.KeyValue. Hence, in our pollinator count example, the new columns would be named FunctGroup.Bumblebees, FunctGroup.Honeybees and FunctGroup.Hoverflies. The default setting is `sep = NULL`, which means the names of the new columns are simply the key values themselves (Bumblebees, Honeybees and Hoverflies), which is often appropriate. Therefore, in this case, rearranging the 'poldat.long' to wide format could be done using the following code:
 ```r
@@ -104,4 +104,6 @@ Once this code is run, we're left with the same table we had originally:
 |3     |25/06/2017 |CO3   |10          |5          |1           
 |4     |05/07/2017 |OP1   |8           |3          |2           
 |5     |12/07/2017 |OP2   |3           |2          |5           
-|6     |21/07/2017 |OP3   |2           |7          |9           
+|6     |21/07/2017 |OP3   |2           |7          |9     
+
+I hope this post has been helpful and please let me know if you have other reshaping methods that you prefer. I've briefly dabbled with `melt()` (for wide to long conversions) and `dcast()` (long to wide) both from the 'reshape2' package, but I think I prefer `gather()` and `spread()`.

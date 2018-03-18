@@ -14,7 +14,7 @@ type = "post"
 
 ## Introduction
 
-In order to analyse data, a necessary first step is to ensure that you have only those records from a dataset that are relevant to the analysis that you wish to perform. Often certain records need to be removed so that you are only comparing the records that meet a particular set of criteria. Of course, you could go through and delete the records that don't meet the necessary criteria and save a new spreadsheet file with only the relevant records. However, typically it is quicker and more efficient to keep the entire data table intact and simply cherry-pick the required records from the table.
+In order to analyse data, a necessary first step is to ensure that you have only those records from a dataset that are relevant to the analysis that you wish to perform. Often certain records need to be removed so that you are only comparing the records that meet a particular set of criteria. Of course, you could go through and delete the records that don't meet the necessary criteria and save a new spreadsheet file with only the relevant records. However, typically it is far quicker and more efficient to keep the entire data table intact and simply cherry-pick the required records from the table.
 
 R offers many methods for extracting only certain records from a data frame. However, the extract operator `[` and the functions `dplyr::filter()` and `base::subset()` comprise three simple and intuitive methods for subsetting a data frame. This article will run through the process of retrieving a subset of all records using these three methods.
 
@@ -32,21 +32,25 @@ Thus, the name of the original data frame is followed by square brackets which e
 ```r
 dataset[which(dataset$year == 2012),]
 ```
-This call would return only those records for which the value of the 'year' column was equal to 2012. The fact that no arguments are listed for the columns means that all columns from the original data frame would be returned for all records from 2012. In order to return only columns 1 and 4-7, you would amend the call thusly:
+The same operation can also be performed without either the `which()` function or the `,`. However, omitting the comma is only possible if you are selecting for rows and not trying to subset columns. Hence, the following code should return the same result. I'm not sure whether there are subsetting situations using square brackets where `which` is completely necessary. Please comment on this post if you know of such circumstances.
 ```r
-dataset[which(dataset$year == 2012), c(1, 4:7)]
+dataset[dataset$year == 2012]
+```
+This call would return only those records for which the value of the 'year' column was equal to 2012. The fact that no arguments are listed for the columns means that all columns from the original data frame would be returned. In order to return only columns 1 and 4-7, you would amend the call thusly:
+```r
+dataset[dataset$year == 2012, c(1, 4:7)]
 ```
 If you wanted to list the columns to include by name rather than index, the call becomes somewhat complicated:
 ```r
-dataset[which(dataset$year == 2012), names(dataset) %in% c('county','year','population')]
+dataset[dataset$year == 2012, names(dataset) %in% c('county','year','population')]
 ```
 This call would return all records from 2012 and only values from the columns 'county', 'year' and 'population' for each record.
 
 Finally, to add multiple criteria to the selection of records you use the logical AND `&` or OR `|` operators:
 ```r
-dataset[which(dataset$year == 2012 & dataset$county == 'Kent'), c(1, 4:7)]
+dataset[dataset$year == 2012 & dataset$county == 'Kent', c(1, 4:7)]
 ```
-Here, all records from Kent in 2012 would be returned, with only the values stored in columns 1 and 4-7 for each record.
+Here, all records from Kent in 2012 would be returned, along with only the values stored in columns 1 and 4-7 for each record.
 
 
 ## dplyr::filter()
@@ -88,7 +92,7 @@ dataset %>%
 As you can see, `subset()` works almost exactly the same as `filter()`, and indeed, the result of this call is identical to the first code example given at the start of the article. However, notice that there is one important difference in the syntax for `subject()`: rather than separating successive conditions with a comma as before, now a logical operator (AND `&` or OR `|`) is used instead to include multiple conditions in a single call.
 
 Another difference with `subset()` is that it takes an optional argument `select =`, which allows you to return only certain columns from the original data frame. For example, if you'd only like columns 1, and 4-7 in the filtered data frame, then you would type the following:
-```
+```r
 dataset %>%
   subset(year == 2012 & county == 'Kent', select = c(1, 4:7))
 ```
@@ -105,9 +109,10 @@ dataset %>%
 ```
 ### Storing a filtered dataset as a new data frame
 
-It's important to remember that the extract operator and `filter()` and `subset()` functions do not make any changes to the original data frame. Therefore, if you want to use the filtered version of a data frame in analyses, then you should store the result of a call to one of the functions in a new variable:
+It's important to remember that the extract operator, `filter()` and `subset()` functions do not make any changes to the original data frame. Therefore, if you want to use the filtered version of a data frame in analyses, then you should store the result of a call to one of the functions in a new variable:
 ```r
-filtered_data1 <- dataset[which(dataset$year > 2004 & dataset$year < 2008 & dataset$county == 'Kent'), c(1,4:7)]
+filtered_data1 <- dataset[dataset$year > 2004 & dataset$year < 2008 & 
+  dataset$county == 'Kent', c(1,4:7)]
 
 filtered_data2 <- dataset %>%
   filter(year > 2004, year < 2008, county == 'Kent') %>%
@@ -118,3 +123,4 @@ filtered_data3 <- dataset %>%
 ```
 These calls should all produce the same filtered dataset. Now records from Kent between the years of 2005 and 2007 will be stored in a new data frame called 'filtered_data'(1,2 or 3). Meanwhile, the data frame called 'dataset' remains unaltered.
 
+Which method of subsetting looks best to you? I tend to go with `filter()` or occasionally `subset()` because I like having a function name that explicitly states what I'm doing. That said, I'd like to get more fluent with using brackets as they seem to make your code more succinct in many cases.
