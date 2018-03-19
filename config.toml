@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "http://inordinatefondness.netlify.com/"
 languageCode = "en-gb"
 title = "An Inordinate Fondness for Data"
 theme = "hugo-future-imperfect"
