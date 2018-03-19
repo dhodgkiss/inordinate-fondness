@@ -69,7 +69,7 @@ pluralizeListTitles = false
 [params.intro]
   header    = "An Inordinate Fondness for Data"
 
-  paragraph = "Adventures in data science with the Anxious Analyst as your guide."
+  paragraph = "Adventures in data science with the Anxious Analyst"
 
   about     = ""
 
